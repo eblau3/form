@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <form action="#" method="post" enctype="multipart/form-data">
+
+    <div>
+      <label for="category">お問い合わせ種別（必須）：</label><br>
+      <select id="category" name="category" required>
+        <option value="">-- 選択してください --</option>
+        <option value="a">種別A</option>
+        <option value="b">種別B</option>
+        <option value="other">その他</option>
+      </select>
+    </div>
+  
+    <br>
+  
+    <div>
+      <label for="user_name">お名前（必須）：</label><br>
+      <input type="text" id="user_name" name="user_name" autocomplete="name" required>
+    </div>
+  
+    <div>
+      <label for="user_kana">ふりがな（必須）：</label><br>
+      <input type="text" id="user_kana" name="user_kana" autocomplete="off" required>
+    </div>
+
+    <br>
+
+    <div>
+      <label for="tel">電話番号（ハイフンなし）：</label><br>
+      <input type="tel" id="tel" name="tel" autocomplete="tel" inputmode="numeric" placeholder="09012345678" pattern="\d+" title="ハイフンなしの数字のみ">
+    </div>
+
+    <br>
+
+    <div>
+      <label for="zip">郵便番号（ハイフンなし）：</label><br>
+      <input type="text" id="zip" name="zip" autocomplete="postal-code" inputmode="numeric" placeholder="1234567" pattern="\d{7}" title="ハイフンなしの7桁の数字">
+    </div>
+
+    <div>
+      <label for="address">住所：</label><br>
+      <input type="text" id="address" name="address" autocomplete="street-address">
+    </div>
+  
+    <br>
+  
+    <div>
+      <fieldset>
+        <legend>性別（必須）：</legend>
+        <label><input type="radio" name="gender" value="male" required> 男性</label>
+        <label><input type="radio" name="gender" value="female"> 女性</label>
+        <label><input type="radio" name="gender" value="other"> その他</label>
+      </fieldset>
+    </div>
+  
+    <br>
+  
+    <div>
+      <fieldset>
+        <legend>興味のある分野：</legend>
+        <label><input type="checkbox" name="interest" value="coding"> プログラミング</label>
+        <label><input type="checkbox" name="interest" value="design"> デザイン</label>
+      </fieldset>
+    </div>
+  
+    <br>
+  
+    <div>
+      <label for="message">お問い合わせ内容（必須）：</label><br>
+      <textarea id="message" name="message" autocomplete="off" rows="10" required></textarea>
+    </div>
+  
+    <br>
+
+    <div>
+      <label for="user_images">写真（画像）：</label><br>
+      <input type="file" id="user_images" name="user_images[]" accept="image/*" multiple>
+    </div>
+  
+    <div>
+      <label for="documents">応募書類（PDF）：</label><br>
+      <input type="file" id="documents" name="documents[]" accept=".pdf" multiple>
+    </div>
+  
+    <br>
+
+    <div>
+      <label>
+        <input type="checkbox" name="privacy_agreement" value="agreed" required>
+        プライバシーポリシーに同意する（必須）
+      </label>
+    </div>
+
+    <br>
+  
+    <div>
+      <button type="submit">送信する</button>
+    </div>
+  
+  </form>
+</body>
+</html>
