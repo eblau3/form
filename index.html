@@ -1,15 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>アクセシビリティ考慮フォーム</title>
+  <style>
+    label {
+      display: block;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+  </style>
+  <script src="./js-address-auto-fill.js" defer></script>
 </head>
 <body>
   <form action="#" method="post" enctype="multipart/form-data">
 
     <div>
-      <label for="category">お問い合わせ種別（必須）：</label><br>
+      <label for="category">
+        お問い合わせ種別 <span aria-hidden="true">必須</span>
+      </label>
       <select id="category" name="category" required>
         <option value="">-- 選択してください --</option>
         <option value="a">種別A</option>
@@ -17,97 +30,166 @@
         <option value="other">その他</option>
       </select>
     </div>
-  
-    <br>
-  
-    <div>
-      <label for="user_name">お名前（必須）：</label><br>
-      <input type="text" id="user_name" name="user_name" autocomplete="name" required>
-    </div>
-  
-    <div>
-      <label for="user_kana">ふりがな（必須）：</label><br>
-      <input type="text" id="user_kana" name="user_kana" autocomplete="off" required>
-    </div>
-
-    <br>
 
     <div>
-      <label for="tel">電話番号（ハイフンなし）：</label><br>
-      <input type="tel" id="tel" name="tel" autocomplete="tel" inputmode="numeric" placeholder="09012345678" pattern="\d+" title="ハイフンなしの数字のみ">
-    </div>
-    
-    <br>
-
-    <div>
-      <label for="email">メールアドレス（必須）：</label><br>
-      <input type="email" id="email" name="email" autocomplete="email" placeholder="example@mail.com" required>
-    </div>
-
-    <br>
-
-    <div>
-      <label for="zip">郵便番号（ハイフンなし）：</label><br>
-      <input type="text" id="zip" name="zip" autocomplete="postal-code" inputmode="numeric" placeholder="1234567" pattern="\d{7}" title="ハイフンなしの7桁の数字">
+      <label for="user_name">
+        お名前 <span aria-hidden="true">必須</span>
+      </label>
+      <input
+        type="text"
+        id="user_name"
+        name="user_name"
+        required
+        aria-required="true"
+        autocomplete="name"
+      >
     </div>
 
     <div>
-      <label for="address">住所：</label><br>
-      <input type="text" id="address" name="address" autocomplete="street-address">
+      <label for="user_kana">
+        ふりがな <span aria-hidden="true">必須</span>
+      </label>
+      <input
+        type="text"
+        id="user_kana"
+        name="user_kana"
+        required
+        aria-required="true"
+        autocomplete="off"
+      >
     </div>
-  
-    <br>
-  
-    <div>
-      <fieldset>
-        <legend>性別（必須）：</legend>
-        <label><input type="radio" name="gender" value="male" required> 男性</label>
-        <label><input type="radio" name="gender" value="female"> 女性</label>
-        <label><input type="radio" name="gender" value="other"> その他</label>
-      </fieldset>
-    </div>
-  
-    <br>
-  
-    <div>
-      <fieldset>
-        <legend>興味のある分野：</legend>
-        <label><input type="checkbox" name="interest" value="coding"> プログラミング</label>
-        <label><input type="checkbox" name="interest" value="design"> デザイン</label>
-      </fieldset>
-    </div>
-  
-    <br>
-  
-    <div>
-      <label for="message">お問い合わせ内容（必須）：</label><br>
-      <textarea id="message" name="message" autocomplete="off" rows="10" required></textarea>
-    </div>
-  
-    <br>
 
     <div>
-      <label for="user_images">写真（画像）：</label><br>
-      <input type="file" id="user_images" name="user_images[]" accept="image/*" multiple>
+      <label for="tel">電話番号</label>
+      <p id="tel-note" class="form-note">ハイフンなしで入力してください</p>
+      <input
+        type="tel"
+        id="tel"
+        name="tel"
+        aria-describedby="tel-note"
+        title="ハイフンなしの数字のみ"
+        autocomplete="tel"
+        inputmode="numeric"
+        pattern="\d+"
+        placeholder="09012345678"
+      >
+    </div>
+
+    <div>
+      <label for="email">
+        メールアドレス <span aria-hidden="true">必須</span>
+      </label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        required
+        aria-required="true"
+        autocomplete="email"
+        placeholder="example@mail.com"
+      >
+    </div>
+
+    <fieldset class="js-form-address-group">
+      <legend>住所（自動入力）</legend>
+      <div>
+        <label for="zip">郵便番号</label>
+        <p id="zip-note" class="form-note">ハイフンなしの7桁で入力してください</p>
+        <input
+          type="text"
+          id="zip"
+          name="zip"
+          class="js-form-zipcode"
+          aria-describedby="zip-note"
+          title="ハイフンなしの7桁の数字"
+          autocomplete="postal-code"
+          inputmode="numeric"
+          pattern="\d{7}"
+          placeholder="1234567"
+        >
+        <button type="button" class="js-form-search-btn">住所検索</button>
+      </div>
+      <div>
+        <label for="pref">都道府県</label>
+        <input type="text" id="pref" name="pref" class="js-form-pref">
+      </div>
+      <div>
+        <label for="city">市区町村</label>
+        <input type="text" id="city" name="city" class="js-form-city">
+      </div>
+      <div>
+        <label for="town">町域名</label>
+        <input type="text" id="town" name="town" class="js-form-town">
+      </div>
+      <div>
+        <label for="address_extra">番地・建物名・部屋番号</label>
+        <input
+          type="text"
+          id="address_extra"
+          name="address_extra"
+          class="js-form-address-extra"
+          placeholder="1-2-3 〇〇ビル 1F"
+        >
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>性別 <span aria-hidden="true">必須</span></legend>
+      <label><input type="radio" name="gender" value="male" required> 男性</label>
+      <label><input type="radio" name="gender" value="female"> 女性</label>
+      <label><input type="radio" name="gender" value="other"> その他</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>興味のある分野</legend>
+      <label><input type="checkbox" name="interest" value="coding"> プログラミング</label>
+      <label><input type="checkbox" name="interest" value="design"> デザイン</label>
+    </fieldset>
+
+    <div>
+      <label for="message">
+        お問い合わせ内容 <span aria-hidden="true">必須</span>
+      </label>
+      <textarea
+        id="message"
+        name="message"
+        required
+        aria-required="true"
+        autocomplete="off"
+        rows="10"
+      ></textarea>
+    </div>
+
+    <div>
+      <label for="user_images">写真（画像）</label>
+      <input
+        type="file"
+        id="user_images"
+        name="user_images[]"
+        accept="image/*"
+        multiple
+      >
     </div>
   
     <div>
-      <label for="documents">応募書類（PDF）：</label><br>
-      <input type="file" id="documents" name="documents[]" accept=".pdf" multiple>
+      <label for="documents">応募書類（PDF）</label>
+      <input
+        type="file"
+        id="documents"
+        name="documents[]"
+        accept=".pdf"
+        multiple
+      >
     </div>
-  
-    <br>
 
     <div>
       <label>
         <input type="checkbox" name="privacy_agreement" value="agreed" required>
-        プライバシーポリシーに同意する（必須）
+        プライバシーポリシーに同意する <span aria-hidden="true">必須</span>
       </label>
     </div>
 
-    <br>
-  
-    <div>
+    <div style="margin-top: 30px;">
       <button type="submit">送信する</button>
     </div>
   
